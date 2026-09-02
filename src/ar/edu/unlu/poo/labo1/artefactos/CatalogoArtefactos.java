@@ -9,25 +9,24 @@ public class CatalogoArtefactos {
         catalogo.add(artefacto);
     }
 
-    public Set obtenerArtefactosUnicos(){
+    public Set<Artefacto> obtenerArtefactosUnicos(){
         return catalogo;
     }
 
-    List buscarArtefactosPorTipo(String tipo){
+    List<Artefacto> buscarArtefactosPorTipo(String tipo){
         List<Artefacto> listaPorTipo = new ArrayList<>();
         for(Artefacto artefacto : catalogo){
             if(artefacto.getTipo().equals(tipo)){
                 listaPorTipo.add(artefacto);
             }
         }
-        // falta ordenar la lista
+        listaPorTipo.sort(Comparator.comparing(Artefacto::getPoder).reversed());
 
         return listaPorTipo;
     }
 
     Map<String, Integer> contarArtefactosPorTipo(){
         Map<String, Integer> artefactosPorTipo = new HashMap<>();
-        Integer uno = 1;
         for(Artefacto artefacto : catalogo){
             String tipoActual = artefacto.getTipo();
             if(artefactosPorTipo.isEmpty() || !artefactosPorTipo.containsKey(tipoActual)){
@@ -42,10 +41,10 @@ public class CatalogoArtefactos {
     }
 
     Artefacto obtenerArtefactoMasPoderoso(){
-        Artefacto masPoderoso = null;
-        int maximoPoder = 0;
+        if(catalogo.isEmpty()) return null;
+        Artefacto masPoderoso = new Artefacto("",0,"");
         for(Artefacto artefacto : catalogo){
-            if(artefacto.getPoder() >= maximoPoder){
+            if(artefacto.getPoder() >= masPoderoso.getPoder()){
                 masPoderoso = artefacto;
             }
         }
